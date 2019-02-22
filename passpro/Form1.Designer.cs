@@ -38,6 +38,7 @@
             this.passType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.passusername = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.password = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.删除密码ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -47,6 +48,7 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.新增密码ToolStripMenuItem,
             this.修改密码ToolStripMenuItem,
+            this.删除密码ToolStripMenuItem,
             this.修改密钥ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -66,6 +68,7 @@
             this.修改密码ToolStripMenuItem.Name = "修改密码ToolStripMenuItem";
             this.修改密码ToolStripMenuItem.Size = new System.Drawing.Size(68, 21);
             this.修改密码ToolStripMenuItem.Text = "修改密码";
+            this.修改密码ToolStripMenuItem.Click += new System.EventHandler(this.修改密码ToolStripMenuItem_Click);
             // 
             // 修改密钥ToolStripMenuItem
             // 
@@ -85,7 +88,7 @@
             this.dataGridView1.Location = new System.Drawing.Point(13, 29);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 23;
-            this.dataGridView1.Size = new System.Drawing.Size(452, 225);
+            this.dataGridView1.Size = new System.Drawing.Size(452, 235);
             this.dataGridView1.TabIndex = 1;
             // 
             // no
@@ -115,6 +118,13 @@
             this.password.HeaderText = "密码";
             this.password.Name = "password";
             this.password.ReadOnly = true;
+            // 
+            // 删除密码ToolStripMenuItem
+            // 
+            this.删除密码ToolStripMenuItem.Name = "删除密码ToolStripMenuItem";
+            this.删除密码ToolStripMenuItem.Size = new System.Drawing.Size(68, 21);
+            this.删除密码ToolStripMenuItem.Text = "删除密码";
+            this.删除密码ToolStripMenuItem.Click += new System.EventHandler(this.删除密码ToolStripMenuItem_Click);
             // 
             // Main
             // 
@@ -150,6 +160,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn passType;
         private System.Windows.Forms.DataGridViewTextBoxColumn passusername;
         private System.Windows.Forms.DataGridViewTextBoxColumn password;
+        private System.Windows.Forms.ToolStripMenuItem 删除密码ToolStripMenuItem;
     }
 }
 

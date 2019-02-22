@@ -28,12 +28,10 @@ namespace passpro
             passClass.insertPass(pass);
             Main form = (Main)this.Owner;
             CheckPro check = new CheckPro();
-            CheckPro.passStruct passStruct = new CheckPro.passStruct();
+            
             List<CheckPro.passStruct> list = check.readPassFill();
             form.dataGridView1.DataSource = list;
             //form.Show();
-            
-
             this.Close();
         }
     }

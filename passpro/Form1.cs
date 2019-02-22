@@ -37,9 +37,48 @@ namespace passpro
         private void Main_Load(object sender, EventArgs e)
         {
             CheckPro check = new CheckPro();
-            CheckPro.passStruct passStruct = new CheckPro.passStruct();
+            
             List<CheckPro.passStruct> list = check.readPassFill();           
-            dataGridView1.DataSource = list;            
-        }        
+            dataGridView1.DataSource = list;
+        }
+
+        private void 修改密码ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(dataGridView1.SelectedRows.Count == 1)
+            {
+                string no = dataGridView1.SelectedRows[0].Cells[0].Value.ToString();
+                MessageBox.Show(no);
+            }else
+            {
+                MessageBox.Show("请选中需要修改的行！");
+            }
+        }
+
+        private void 删除密码ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count == 1)
+            {
+                string no = dataGridView1.SelectedRows[0].Cells[0].Value.ToString();
+                CheckPro checkPro = new CheckPro();
+                CheckPro.passStruct ps = new CheckPro.passStruct();
+                ps.no = dataGridView1.SelectedRows[0].Cells[0].Value.ToString();
+                ps.passType = dataGridView1.SelectedRows[0].Cells[1].Value.ToString();
+                ps.passUserName = dataGridView1.SelectedRows[0].Cells[2].Value.ToString();
+                ps.passPassword = dataGridView1.SelectedRows[0].Cells[3].Value.ToString();
+                checkPro.deletePass(ps);
+                this.refresh();
+            }
+            else
+            {
+                MessageBox.Show("请选中需要修改的行！");
+            }
+        }
+
+        private void refresh()
+        {
+            CheckPro check = new CheckPro();
+            List<CheckPro.passStruct> list = check.readPassFill();
+            dataGridView1.DataSource = list;
+        }
     }
 }

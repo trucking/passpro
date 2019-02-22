@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Security.Cryptography;
 using System.IO;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 namespace passpro
 {
@@ -34,19 +35,21 @@ namespace passpro
             if (this.checkPassFill())
             {
                 this.writePassFill(pass);
-            } else
+            }
+            else
             {
                 this.createFile();
                 this.writePassFill(pass);
             }
         }
-         
+
         public bool checkPassFill()
         {
-            if(File.Exists(this.PassFill) == false)
+            if (File.Exists(this.PassFill) == false)
             {
                 return false;
-            }else
+            }
+            else
             {
                 return true;
             }
@@ -54,9 +57,9 @@ namespace passpro
 
         public bool checkKeyFile()
         {
-            if(File.Exists(this.keyFill) == false)
+            if (File.Exists(this.keyFill) == false)
             {
-                return false;                
+                return false;
             }
             else
             {
@@ -67,8 +70,8 @@ namespace passpro
         public bool checkKeyValue(string key)
         {
             string value = File.ReadAllText(this.keyFill);
-            if(this.MD5Encrypt16(key) == value)
-            {                
+            if (this.MD5Encrypt16(key) == value)
+            {
                 return true;
             }
             else
@@ -91,18 +94,49 @@ namespace passpro
         //写入密码文件
         private void writePassFill(passStruct pass)
         {
-            string content = 
+            string content =
                 pass.no.ToString() + "\t" +
-                pass.passType + "\t" + 
-                pass.passUserName + "\t" + 
-                pass.passPassword + "\r\n";            
+                pass.passType + "\t" +
+                pass.passUserName + "\t" +
+                pass.passPassword + "\r\n";
             FileStream fm = File.Open(this.PassFill, FileMode.Append);
             fm.Position = fm.Length;
             StreamWriter sw = new StreamWriter(fm);
             sw.Write(content);
             sw.Close();
             fm.Close();
-        }        
+        }
+        //删除密码
+        public void deletePass(passStruct psObj)
+        {
+            FileStream fs = File.Open(this.PassFill, FileMode.Open);
+            StreamReader sr = new StreamReader(fs);
+            
+            string srLine = sr.ReadLine();
+            List<string> list = new List<string> {srLine};
+            while (srLine != null)
+            {
+                srLine = sr.ReadLine();
+                list.Add(srLine);
+            }
+
+            sr.Close();
+            string obj = psObj.no + "\t" +
+                            psObj.passType + "\t" +
+                            psObj.passUserName + "\t" +
+                            psObj.passPassword;
+
+            list.Remove(obj);
+            fs.Close();
+            fs = File.Open(this.PassFill, FileMode.Create);
+            StreamWriter sw = new StreamWriter(fs);
+            for (int i = 0; i < list.Count-1; i++)
+            {
+                sw.Write(list[i] + "\r\n");
+            }
+            sw.Close();
+            fs.Close();
+        }
         //读取pass文件的内容
         public List<passStruct> readPassFill()
         {
@@ -110,22 +144,23 @@ namespace passpro
             StreamReader sr = new StreamReader(fs);
             List<passStruct> list = new List<passStruct> { };
             string srLine = sr.ReadLine();
-            
+
             while (srLine != null)
-            {                
+            {
                 string[] strarr = srLine.Split('\t');
-                passStruct passStruct = new passStruct();                
+                passStruct passStruct = new passStruct();
                 passStruct.no = strarr[0];
                 passStruct.passType = strarr[1];
                 passStruct.passUserName = strarr[2];
-                passStruct.passPassword = strarr[3];                
-                list.Add(passStruct);                
-                srLine = sr.ReadLine();                
-            }            
+                passStruct.passPassword = strarr[3];
+                list.Add(passStruct);
+                srLine = sr.ReadLine();
+            }
             sr.Close();
             fs.Close();
             return list;
         }
+
         private string MD5Encrypt16(string password)
         {
             var md5 = new MD5CryptoServiceProvider();
@@ -145,7 +180,7 @@ namespace passpro
             RSACryptoServiceProvider.UseMachineKeyStore = true;
             RSACryptoServiceProvider rsaProvider = new RSACryptoServiceProvider();
             RSAParameters p = rsaProvider.ExportParameters(true);
-            
+
             return new RSAKey()
             {
                 PublicKey = ComponentKey(p.Exponent, p.Modulus),
@@ -161,6 +196,6 @@ namespace passpro
             list.AddRange(b2);
             byte[] b = list.ToArray<byte>();
             return Convert.ToBase64String(b);
-        }        
+        }
     }
 }
