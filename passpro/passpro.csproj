@@ -44,6 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UpdatePass.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UpdatePass.Designer.cs">
+      <DependentUpon>UpdatePass.cs</DependentUpon>
+    </Compile>
     <Compile Include="AddPass.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -70,6 +76,9 @@
       <DependentUpon>login.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
+    <EmbeddedResource Include="UpdatePass.resx">
+      <DependentUpon>UpdatePass.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AddPass.resx">
       <DependentUpon>AddPass.cs</DependentUpon>
     </EmbeddedResource>

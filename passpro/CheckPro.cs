@@ -15,15 +15,15 @@ namespace passpro
         public static string KEY = "";
         private string PassFill = "./pass.pass";
         private string keyFill = "./key";
+        /// <summary>
+        /// 本结构用于存储密码，包括
+        /// no  密码序号
+        /// passType    密码类型
+        /// passUserName    用户名
+        /// passPassword    密码
+        /// </summary>
         public struct passStruct
-        {
-            /// <summary>
-            /// 本结构用于存储密码，包括
-            /// no  密码序号
-            /// passType    密码类型
-            /// passUserName    用户名
-            /// passPassword    密码
-            /// </summary>
+        {            
             public string no { get; set; }
             public string passType { get; set; }
             public string passUserName { get; set; }
@@ -160,7 +160,39 @@ namespace passpro
             fs.Close();
             return list;
         }
-
+        //修改密码文件
+        public  void updatePassFill(passStruct oldPs,passStruct newPs)
+        {
+            FileStream fs = File.Open(this.PassFill,FileMode.Open);
+            StreamReader sr = new StreamReader(fs);
+            string srLine = sr.ReadLine();
+            List<string> list = new List<string> { srLine };
+            while(srLine != null)
+            {
+                srLine = sr.ReadLine();
+                list.Add(srLine);
+            }
+            string oldObj = oldPs.no + "\t" +
+                            oldPs.passType + "\t" +
+                            oldPs.passUserName + "\t" +
+                            oldPs.passPassword;
+            string newObj = newPs.no + "\t" +
+                            newPs.passType + "\t" +
+                            newPs.passUserName + "\t" +
+                            newPs.passPassword;
+            int item = list.IndexOf(oldObj);
+            list.Remove(oldObj);
+            list.Insert(item, newObj);
+            fs.Close();
+            fs = File.Open(this.PassFill, FileMode.Create);
+            StreamWriter sw = new StreamWriter(fs);
+            for (int i = 0; i < list.Count - 1; i++)
+            {
+                sw.Write(list[i] + "\r\n");
+            }
+            sw.Close();
+            fs.Close();
+        }
         private string MD5Encrypt16(string password)
         {
             var md5 = new MD5CryptoServiceProvider();

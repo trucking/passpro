@@ -46,8 +46,12 @@ namespace passpro
         {
             if(dataGridView1.SelectedRows.Count == 1)
             {
-                string no = dataGridView1.SelectedRows[0].Cells[0].Value.ToString();
-                MessageBox.Show(no);
+                string obj = dataGridView1.SelectedRows[0].Cells[0].Value.ToString() + "\t" +
+                             dataGridView1.SelectedRows[0].Cells[1].Value.ToString() + "\t" +
+                             dataGridView1.SelectedRows[0].Cells[2].Value.ToString() + "\t" +
+                             dataGridView1.SelectedRows[0].Cells[3].Value.ToString() ;
+                UpdatePass up = new UpdatePass(obj);
+                up.Show(this); 
             }else
             {
                 MessageBox.Show("请选中需要修改的行！");
